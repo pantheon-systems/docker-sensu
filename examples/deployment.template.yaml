@@ -35,6 +35,7 @@ spec:
         - image: quay.io/getpantheon/sensu:0.25.5-1
           name: sensu-client
           imagePullPolicy: IfNotPresent
+          command: ["/opt/sensu/bin/sensu-client", "-d", "/etc/sensu/conf.d"]
           ports:
             - containerPort: 3030
               protocol: TCP
