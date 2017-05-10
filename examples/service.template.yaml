@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sensu-client
+  labels:
+    app: sensu-client
+spec:
+  ports:
+    - port: 3030
+      name: tcp
+      targetPort: 3030
+      protocol: TCP
+    - port: 3030
+      name: udp
+      targetPort: 3030
+      protocol: UDP
+  selector:
+    app: sensu-client
+    state: serving
+  type: ClusterIP

@@ -1,0 +1,54 @@
+# replace __VARIABLE__ with your environment's configuration
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sensu-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sensu-client
+      state: serving
+
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+
+  template:
+    metadata:
+      labels:
+        app: sensu-client
+        state: serving
+    spec:
+      volumes:
+        - name: config
+          configMap:
+            name: sensu-client-config
+        - name: certs
+          secret:
+            secretName: sensu-client-certs
+
+      containers:
+        - image: quay.io/getpantheon/sensu:0.25.5-1
+          name: sensu-client
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3030
+              protocol: TCP
+            - containerPort: 3030
+              protocol: UDP
+          resources:
+            limits:
+              cpu: 2
+              memory: 1Gi
+            requests:
+              cpu: 0.2
+              memory: 128Mi
+          volumeMounts:
+            - name: config
+              mountPath: /etc/sensu/conf.d
+            - name: certs
+              mountPath: /certs

@@ -1,0 +1,38 @@
+# replace __VARIABLES__ with your environment's configuration
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sensu-client
+  labels:
+    app: sensu-client
+    filetype: sensu-config-json
+data:
+  client.json: |
+    {
+      "client": {
+        "name": "__CLUSTER__",
+        "address": "kubernetes-__CLUSTER__",
+        "subscriptions": [
+          "__CLUSTER__",
+          "kubernetes"
+        ],
+        "socket": {
+          "bind": "0.0.0.0",
+          "port": 3030
+        }
+      },
+      "rabbitmq": {
+        "ssl": {
+          "private_key_file": "/certs/sensu-client.pem",
+          "cert_chain_file": "/certs/sensu-client.pem",
+          "cacert_file": "/certs/ca.crt"
+        },
+        "host": "__RABBITMQ__",
+        "port": 5671,
+        "vhost": "/sensu",
+        "user": "sensu",
+        "password": "__RABBITMQ_PASSWD__",
+        "heartbeat": 20
+      }
+    }
