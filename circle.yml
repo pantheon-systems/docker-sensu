@@ -1,0 +1,17 @@
+---
+machine:
+  services:
+    - docker
+
+test:
+  override:
+    - docker login -p "$QUAY_PASSWD" -u "$QUAY_USER" -e "unused@unused" quay.io
+    - make build
+
+deployment:
+  production:
+    branch:
+      - master
+      - release-test
+    commands:
+      - make push
