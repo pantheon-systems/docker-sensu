@@ -3,7 +3,7 @@ FROM quay.io/getpantheon/debian:jessie
 # pass in via "--build-arg SENSU_VERSION=..."
 ARG SENSU_VERSION
 
-# to pull from sensu's own apt repos
+# TODO: after 2017-05-17 switch the URL from: "https://sensu.global.ssl.fastly.net/apt" to "https://repositories.sensuapp.org/apt"
 RUN apt-get update -y \
   && apt-get install -y \
     wget \
