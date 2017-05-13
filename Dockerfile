@@ -8,6 +8,7 @@ RUN apt-get update -y \
   && apt-get install -y \
     wget \
     apt-transport-https \
+    build-essential \
   && wget -q https://sensu.global.ssl.fastly.net/apt/pubkey.gpg -O- | apt-key add - \
   && echo "deb     https://sensu.global.ssl.fastly.net/apt jessie main" > /etc/apt/sources.list.d/sensu.list \
   && apt-get update -y \
@@ -17,3 +18,5 @@ RUN apt-get update -y \
   && apt-get -y clean \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/*
+
+RUN sensu-install -p sensu-plugins-kubernetes
