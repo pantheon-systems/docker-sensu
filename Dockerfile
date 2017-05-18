@@ -18,5 +18,3 @@ RUN apt-get update -y \
   && apt-get -y clean \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/*
-
-RUN sensu-install -p sensu-plugins-kubernetes
